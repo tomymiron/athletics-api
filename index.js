@@ -1,4 +1,5 @@
 import practiceRoutes from "./routes/practice.js";
+import userRoutes from "./routes/user.js";
 import authRoutes from "./routes/auth.js";
 import express from "express";
 import dotenv from "dotenv";
@@ -23,6 +24,7 @@ app.use(cors({
 
 // Main Routes
 app.use("/practice", practiceRoutes);
+app.use("/user", userRoutes);
 app.use("/auth", authRoutes);
 
 app.use("/", (req, res) => {

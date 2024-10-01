@@ -8,7 +8,6 @@ dotenv.config();
 export const register = (req, res) => {
   try {
       const { username, email, pass} = req.body.newUser;
-      console.log(req.body.newUser)
 
       if(!username || !email || !pass) return res.status(400).json("Ocurrio un error, los datos no fueron validos");
 
@@ -23,8 +22,7 @@ export const register = (req, res) => {
         return res.status(200).json("Usuario creado exitosamente");
       });
   } catch (err) {
-    console.log(err)
-      return res.status(400).json("Ocurrió un error");
+    return res.status(400).json("Ocurrió un error");
   }
 };
 
