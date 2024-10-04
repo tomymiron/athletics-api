@@ -1,7 +1,7 @@
 import { queryDatabase } from "../db/connect.js";
+import validator from "validator";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import validator from "validator";
 dotenv.config();
 
 // USERNAME CHECK GET
@@ -24,7 +24,6 @@ export const emailCheck = async (req, res) => {
     const { email } = req.query;
     if(!email) return res.status(400).json("Ningun email obtenido");
     const newEmail = email.toLowerCase();
-    console.log(newEmail)
 
     async function isEmailValid(email){
         return validator.isEmail(email)
@@ -34,7 +33,6 @@ export const emailCheck = async (req, res) => {
 
     try {
         const data = await queryDatabase("call users_email_check(?)", [newEmail]);
-        console.log("IN USER: ", data[0].length > 0);
         return res.status(200).json({ inUse: data[0].length > 0 });
     } catch (err) {
         console.log("ERROR:", err);
@@ -48,7 +46,6 @@ export const usernameChange = (req, res) => {
     if(!token) return res.status(401).json("Usuario no valido")
     const { username } = req.body;
     if(!username) return res.status(400).json("Ningun username obtenido");
-    console.log(username)
 
     jwt.verify(token, process.env.SECRET_KEY, async (err, userInfo) => {
         if(err) return res.status(403).json("Token no valido");

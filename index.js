@@ -1,8 +1,11 @@
+import roomRoutes, { handleRoomSocket } from "./routes/room.js";
 import practiceRoutes from "./routes/practice.js";
 import userRoutes from "./routes/user.js";
 import authRoutes from "./routes/auth.js";
+import { Server } from "socket.io";
 import express from "express";
 import dotenv from "dotenv";
+import http from "http";
 import cors from "cors";
 
 dotenv.config();
@@ -22,15 +25,21 @@ app.use(cors({
     ],}),
 );
 
+// Main Socket
+const server = http.createServer(app);
+const io = new Server(server);
+handleRoomSocket(io);
+
 // Main Routes
 app.use("/practice", practiceRoutes);
 app.use("/user", userRoutes);
+app.use("/room", roomRoutes);
 app.use("/auth", authRoutes);
 
 app.use("/", (req, res) => {
   res.status(200).send("<h1>Athletics Labs Api Working</h1>");
 });
 
-app.listen(8802, () => {
+server.listen(8802, () => {
   console.log("Athletics Labs Api Working");
 });
